@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ContactExport;
+use App\Mail\ContactRegistered;
 use App\Models\Configuration;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
@@ -44,7 +45,10 @@ class ContactController extends Controller
                                              "pays_id" => $request->pays
                                              ])->toArray();
         $contact= Contact::create($validated);
-        $this->SendContactNotification($contact);
+        if(!$this->SendContactNotification($contact)){
+            // code ou message pour email pas envoyer 
+                // votre code ici
+        }
         return  Redirect::back()->with('message', 'message remercions');
     }
 
@@ -64,7 +68,7 @@ class ContactController extends Controller
           
         }
         try {
-            Mail::to($adminEmail)->cc($contact->destinataire->email)->send(new MailContactRegistered($contact));
+           return Mail::to($adminEmail)->cc($contact->destinataire->email)->send(new ContactRegistered($contact));
 
         } catch (\Throwable $th) {
             Log::alert("l'e-mail n'a pas été envoyé". $th);
