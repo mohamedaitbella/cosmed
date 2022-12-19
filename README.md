@@ -20,12 +20,7 @@ Pour fonctionner correctement, Laravel9 a besoin  :
  composer install
 ```
 
-### npm install  
-```bash
- npm install
- npm run build
 
-```
 
 ### creer un copy du .env.example 
 
@@ -52,7 +47,7 @@ Pour fonctionner correctement, Laravel9 a besoin  :
 
 ```
 
-### nom du l'application 
+### nom du l'application dans .env file
 ```bash
 APP_NAME=cosmed 
 ```
