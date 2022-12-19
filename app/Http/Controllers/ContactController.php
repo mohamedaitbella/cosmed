@@ -48,4 +48,28 @@ class ContactController extends Controller
         return  Redirect::back()->with('message', 'message remercions');
     }
 
+    public function SendContactNotification(Contact $contact)
+    {
+        try {
+            $adminEmail = Configuration::firstOrFail();
+            $adminEmail->email;
+        } catch (\Throwable $th) {
+            //  s'il n'est pas encore configuré, récupérer à partir de env file
+            $adminEmail = env("MAIL_FROM_ADDRESS");
+        }
+       
+        
+        if(!$adminEmail){
+            
+          
+        }
+        try {
+            Mail::to($adminEmail)->cc($contact->destinataire->email)->send(new MailContactRegistered($contact));
+
+        } catch (\Throwable $th) {
+            Log::alert("l'e-mail n'a pas été envoyé". $th);
+        }
+        
+    }
+
 }
