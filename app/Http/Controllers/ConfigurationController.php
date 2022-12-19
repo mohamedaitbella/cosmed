@@ -22,8 +22,6 @@ class ConfigurationController extends Controller
         return view("configuration.index",["email" => $email]);
     }
 
-   
-
     /**
      * Update the specified resource in storage.
      *
@@ -32,7 +30,7 @@ class ConfigurationController extends Controller
      */
     public function update(Request $request)
     {   
-        $validated = $request->validate([
+        $request->validate([
             'email' => 'required|email'
         ]);
         $configuration = Configuration::first();
@@ -43,7 +41,8 @@ class ConfigurationController extends Controller
             $configuration->update(["email" => $request->email]);
         }
  
-        return  Redirect::back()->with('message', 'message remercions');
+        return Redirect::back()->with('alert_success', "l'enregistrement  avec succès");
+
     }
 
 }

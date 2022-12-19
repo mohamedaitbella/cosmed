@@ -5,14 +5,11 @@ namespace App\Http\Controllers;
 use App\Exports\ContactExport;
 use App\Http\Traits\ConfigurationTrait;
 use App\Mail\ContactRegistered;
-use App\Models\Configuration;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use App\Models\Destinataire;
 use App\Models\Pays;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
@@ -49,7 +46,7 @@ class ContactController extends Controller
         $contact= Contact::create($validated);
         if(!$this->SendContactNotification($contact)){
             // code ou message pour email pas envoyer 
-                // votre code ici
+            
         }
         return  Redirect::back()->with('message', 'message remercions');
     }
@@ -72,6 +69,17 @@ class ContactController extends Controller
             Log::alert("l'e-mail n'a pas été envoyé". $th);
         }
         
+    }
+
+    // export contacts and destinataires
+    public function export() 
+    {
+        $arrays =  Contact::select('contacts.*','destinataires.service','destinataires.email as destinataires_email')->join('destinataires', 'destinataires.id', '=', 'contacts.destinataire_id')->get()->toArray();
+       
+        $naming = env("APP_NAME"). "_contacts_". Carbon::now()->format('jmYhs');
+
+        return Excel::download(new ContactExport($arrays), $naming.'.xlsx');
+
     }
 
 }
