@@ -46,10 +46,7 @@ class ContactController extends Controller
                                              "ip_visiteur" => $request->ip(),
                                              "pays_id" => $request->pays
                                              ])->toArray();
-        for ($i = 0; $i <= 200;$i++){
-            $contact= Contact::create($validated);
-        }
-        // $contact= Contact::create($validated);
+        $contact= Contact::create($validated);
         if(!$this->SendContactNotification($contact)){
             // code ou message pour email pas envoyer 
                 // votre code ici
@@ -57,7 +54,7 @@ class ContactController extends Controller
         return  Redirect::back()->with('message', 'message remercions');
     }
 
-    // show destination table
+    // show destination
     public function show()
     {
         // eager loading contact destination 
