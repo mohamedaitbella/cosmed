@@ -19,7 +19,6 @@ class ConfigurationController extends Controller
     {
 
         $email = $this->fistOrConfigurationeMail();
-        dd($email);
         return view("configuration.index",["email" => $email]);
     }
 
