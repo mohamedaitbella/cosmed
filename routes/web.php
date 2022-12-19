@@ -30,6 +30,12 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/dashboard/configuration',[ConfigurationController::class,"index"])->name('configuration.index');
+    Route::Put('/dashboard/configuration',[ConfigurationController::class,"update"])->name('configuration.update');
+
+    Route::get('/dashboard/contacts',[ContactController::class,"show"])->middleware(['auth', 'verified'])->name('contact.show');
+    Route::get('/dashboard/contacts/export',[ContactController::class,"export"])->middleware(['auth', 'verified'])->name('contact.export');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

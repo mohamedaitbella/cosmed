@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ContactExport;
+use App\Http\Traits\ConfigurationTrait;
 use App\Mail\ContactRegistered;
 use App\Models\Configuration;
 use App\Http\Requests\StoreContactRequest;
@@ -19,6 +20,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ContactController extends Controller
 {
+    use ConfigurationTrait;
     /**
      * Display a listing of the resource.
      *
@@ -54,19 +56,7 @@ class ContactController extends Controller
 
     public function SendContactNotification(Contact $contact)
     {
-        try {
-            $adminEmail = Configuration::firstOrFail();
-            $adminEmail->email;
-        } catch (\Throwable $th) {
-            //  s'il n'est pas encore configuré, récupérer à partir de env file
-            $adminEmail = env("MAIL_FROM_ADDRESS");
-        }
-       
-        
-        if(!$adminEmail){
-            
-          
-        }
+        $adminEmail = $this->fistOrConfigurationeMail();
         try {
            return Mail::to($adminEmail)->cc($contact->destinataire->email)->send(new ContactRegistered($contact));
 
