@@ -92,6 +92,8 @@ php artisan cosmed:admin
 
 ```
 
+### pour ce connecté visité le lien  /login
+
 ###  les Packages extern utilisés sont
 - [Laravel-Lang](https://github.com/Laravel-Lang/lang)
 - [Laravel-Excel](https://github.com/SpartnerNL/Laravel-Excel)
