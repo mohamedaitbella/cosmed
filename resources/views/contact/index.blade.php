@@ -38,7 +38,6 @@
                                 <option  @selected(old('civilite') == 'Monsieur') value="Monsieur">Monsieur</option>
                                 <option  @selected(old('civilite') == 'Madame') value="Madame">Madame</option>
                                 <option  @selected(old('civilite') == 'Mademoiselle')value="Mademoiselle">Mademoiselle</option>
-                                <option value="zayda">zayda</option>
                             </select>
 
                         </div>
